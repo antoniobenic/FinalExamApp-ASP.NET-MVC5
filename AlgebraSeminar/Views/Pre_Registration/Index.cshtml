@@ -1,0 +1,88 @@
+﻿@model IEnumerable<AlgebraSeminar.Models.Pre_Registration>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of all pre-registrations</h2>
+
+
+@if(Request.IsAuthenticated)
+{
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("List of accepted pre-registrations", "IndexAccepted")</li>
+            <li>@Html.ActionLink("List of declinded pre-registrations", "IndexDeclineded")</li>
+            <li>@Html.ActionLink("List of uncommitted pre-registrations", "IndexUncommitted")</li>
+        </ul>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        @if (Request.IsAuthenticated)
+        {
+            <th></th>
+        }
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Course.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PhoneNumber)
+    </td>
+    <td>
+        @if (item.Status == true)
+        {
+            Write("Accepted");
+        }
+        else if (item.Status != true && item.Status != null)
+        {
+            Write("Declinded");
+        }
+        else
+        {
+            Write("Uncommitted");
+        }
+    </td>
+    @if (Request.IsAuthenticated)
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    }
+</tr>
+}
+
+</table>
